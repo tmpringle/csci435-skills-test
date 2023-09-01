@@ -2,8 +2,6 @@ from PIL import Image, ImageDraw
 import xml.etree.ElementTree as ET
 import os
 
-leaf_nodes = []
-
 # Sources:
 # Drawing using Pillow
 # https://www.blog.pythonlibrary.org/2021/02/23/drawing-shapes-on-images-with-python-and-pillow/
@@ -14,6 +12,11 @@ leaf_nodes = []
 # Getting all files with extension in Python
 # https://stackoverflow.com/questions/3964681/find-all-files-in-a-directory-with-extension-txt-in-python
 
+# global variable to store the current XML file's leaf nodes
+leaf_nodes = []
+
+# traverses the tree of XML nodes to file the XML file's leaf nodes
+# and appends the leaf nodes to a list
 def find_leaves(root):
     root_iterator = root.iter()
     next(root_iterator)
@@ -23,6 +26,8 @@ def find_leaves(root):
         for child in root:
             find_leaves(child)
 
+# parses the bounds attribute to get the xy coordinates for leaf node
+# boundaries and returns them in a list as [x1, y1, x2, y2]
 def get_bounds_list(bounds_str):
     bounds_list = bounds_str.split(",")
     bounds_list[0] = int(bounds_list[0][1:])
@@ -32,25 +37,39 @@ def get_bounds_list(bounds_str):
     bounds_list[1] = int(bounds_list[1][0])
     return bounds_list
 
-xml_files = []
+if __name__ == "__main__":
+    xml_files = []
 
-for file in os.listdir("./input"):
-    if file.endswith(".xml"):
-        xml_files.append(file)
+    # gets all XML files in the input directory
+    for file in os.listdir("./input"):
+        if file.endswith(".xml"):
+            xml_files.append(file)
 
-for xml_file in xml_files:
-    tree = ET.parse("./input/" + xml_file)
-    root = tree.getroot()
-    find_leaves(root)
+    for xml_file in xml_files:
+        # gets the leaf nodes for an XML file
+        tree = ET.parse("./input/" + xml_file)
+        root = tree.getroot()
+        find_leaves(root)
 
-    image = Image.open("./input/" + xml_file[:-3] + "png")
-    draw = ImageDraw.Draw(image)
+        # opens up the image corresponding to the current XML file
+        # and gets ready to draw on it
+        image = Image.open("./input/" + xml_file[:-3] + "png")
+        draw = ImageDraw.Draw(image)
 
-    for leaf in leaf_nodes:
-        bounds_list = get_bounds_list(leaf.get("bounds"))
+        for leaf in leaf_nodes:
+            # gets the xy coordinates for the boundaries of
+            # the current leaf node
+            bounds_list = get_bounds_list(leaf.get("bounds"))
+            x1 = bounds_list[0]
+            y1 = bounds_list[1]
+            x2 = bounds_list[2]
+            y2 = bounds_list[3]
 
-        draw.rectangle((bounds_list[0], bounds_list[1], bounds_list[2], bounds_list[3]), outline="yellow", width=10)
-    
-    image.save("./output/" + xml_file[:-3] + "png")
+            # draws yellow rectangle around leaf node on screenshot
+            draw.rectangle((x1, y1, x2, y2), outline="yellow", width=10)
+        
+        # saves annotated screenshot in output directory
+        image.save("./output/" + xml_file[:-3] + "png")
 
-    leaf_nodes = []
+        # resets global leaf nodes list for next XML file
+        leaf_nodes = []
