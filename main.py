@@ -38,33 +38,19 @@ for file in os.listdir("./input"):
     if file.endswith(".xml"):
         xml_files.append(file)
 
-# for xml_file in xml_files:
-#     tree = ET.parse("./input/" + xml_file)
-#     root = tree.getroot()
-#     find_leaves(root)
+for xml_file in xml_files:
+    tree = ET.parse("./input/" + xml_file)
+    root = tree.getroot()
+    find_leaves(root)
 
-#     for leaf in leaf_nodes:
-#         bounds_list = get_bounds_list(leaf.get("bounds"))
+    image = Image.open("./input/" + xml_file[:-3] + "png")
+    draw = ImageDraw.Draw(image)
 
-#         image = Image.open("./input/" + xml_file[:-3] + "png")
-#         draw = ImageDraw.Draw(image)
+    for leaf in leaf_nodes:
+        bounds_list = get_bounds_list(leaf.get("bounds"))
 
-#         draw.rectangle((bounds_list[0], bounds_list[1], bounds_list[2], bounds_list[3]), outline="yellow", width=10)
-#         image.save("./output/" + xml_file[:-3] + "png")
+        draw.rectangle((bounds_list[0], bounds_list[1], bounds_list[2], bounds_list[3]), outline="yellow", width=10)
+    
+    image.save("./output/" + xml_file[:-3] + "png")
 
-#     leaf_nodes = []
-
-
-tree = ET.parse("./input/" + xml_files[0])
-root = tree.getroot()
-find_leaves(root)
-
-image = Image.open("./input/" + xml_files[0][:-3] + "png")
-draw = ImageDraw.Draw(image)
-
-for leaf in leaf_nodes:
-    bounds_list = get_bounds_list(leaf.get("bounds"))
-
-    draw.rectangle((bounds_list[0], bounds_list[1], bounds_list[2], bounds_list[3]), outline="yellow", width=10)
-
-image.save("./output/" + xml_files[0][:-3] + "png")
+    leaf_nodes = []
