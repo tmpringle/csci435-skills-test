@@ -21,13 +21,13 @@ def find_leaves(root):
         leaf_nodes.append(root)
     else:
         for child in root:
-            find_leaves(child, leaf_nodes)
+            find_leaves(child)
 
 def get_bounds_list(bounds_str):
-    bounds_list = bounds_str.split(',')
+    bounds_list = bounds_str.split(",")
     bounds_list[0] = int(bounds_list[0][1:])
     bounds_list[-1] = int(bounds_list[-1][:-1])
-    bounds_list[1] = bounds_list[1].split('][')
+    bounds_list[1] = bounds_list[1].split("][")
     bounds_list.insert(2, int(bounds_list[1][1]))
     bounds_list[1] = int(bounds_list[1][0])
     return bounds_list
@@ -36,20 +36,35 @@ xml_files = []
 
 for file in os.listdir("./input"):
     if file.endswith(".xml"):
-        xml_files.append("./input/" + file)
-
-print(xml_files)
+        xml_files.append(file)
 
 # for xml_file in xml_files:
-#     tree = ET.parse(xml_file)
+#     tree = ET.parse("./input/" + xml_file)
 #     root = tree.getroot()
 #     find_leaves(root)
 
 #     for leaf in leaf_nodes:
-#         bounds_list = get_bounds_list(leaf.get('bounds'))
+#         bounds_list = get_bounds_list(leaf.get("bounds"))
 
-#         image = Image.open(xml_file[:-3] + "png")
+#         image = Image.open("./input/" + xml_file[:-3] + "png")
 #         draw = ImageDraw.Draw(image)
 
-#         draw.rectangle(bounds_list, outline="yellow", width=10)
-#         image.save('./output/com.apalon.ringtones.png')
+#         draw.rectangle((bounds_list[0], bounds_list[1], bounds_list[2], bounds_list[3]), outline="yellow", width=10)
+#         image.save("./output/" + xml_file[:-3] + "png")
+
+#     leaf_nodes = []
+
+
+tree = ET.parse("./input/" + xml_files[0])
+root = tree.getroot()
+find_leaves(root)
+
+image = Image.open("./input/" + xml_files[0][:-3] + "png")
+draw = ImageDraw.Draw(image)
+
+for leaf in leaf_nodes:
+    bounds_list = get_bounds_list(leaf.get("bounds"))
+
+    draw.rectangle((bounds_list[0], bounds_list[1], bounds_list[2], bounds_list[3]), outline="yellow", width=10)
+
+image.save("./output/" + xml_files[0][:-3] + "png")
