@@ -20,14 +20,14 @@ leaf_nodes = []
 def find_leaves(root):
     root_iterator = root.iter()
     next(root_iterator)
-    if next(root_iterator, None) is None:
+    if next(root_iterator, None) is None:   # passed-in node is a leaf node
         leaf_nodes.append(root)
     else:
         for child in root:
             find_leaves(child)
 
 # parses the bounds attribute to get the xy coordinates for leaf node
-# boundaries and returns them in a list as [x1, y1, x2, y2]
+# boundaries and returns them in a list corresponding to [x1, y1, x2, y2]
 def get_bounds_list(bounds_str):
     bounds_list = bounds_str.split(",")
     bounds_list[0] = int(bounds_list[0][1:])
