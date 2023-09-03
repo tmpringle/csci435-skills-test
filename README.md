@@ -8,7 +8,7 @@ The codebase uses Python, so make sure you have at least **Python 3.8** installe
 
 Once the Python code annotates the screenshots, the annotated screenshots can be found in the output folder.
 
-## My solution
+## My Solution
 At a high level, my code:
 1. Finds all XML files in the input folder
 2. Parses an XML file to find the leaf nodes and temporarily store them in a list
@@ -19,7 +19,7 @@ At a high level, my code:
 5. Saves the annotated screenshot in the output folder
 6. Repeats steps 2-5 for each XML file
 
-## Design decisions
+## Design Decisions
 I chose to use Python since I figured the project's code would be a relatively small script to run. I also got more familiar with Python over the summer, so it made sense to keep using it for this project.
 
 In terms of code, one thing that was not clear at first was how exactly I would parse XML files to find their leaf nodes. After finding the XML parser I would use, I decided to go for a recursive approach to finding and storing the leaf nodes. Since the GUI is tree-based (and the fact that the XML parser I found also treats XML files as tree structures), it made sense to use a tree-traversal approach that I learned in previous CS classes.
