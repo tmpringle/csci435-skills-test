@@ -1,6 +1,7 @@
 from PIL import Image, ImageDraw
 import xml.etree.ElementTree as ET
 import os
+import sys
 
 # Sources:
 # Drawing using Pillow
@@ -40,20 +41,19 @@ def get_bounds_list(bounds_str):
 if __name__ == "__main__":
     xml_files = []
 
-    # gets all XML files in the input directory
-    for file in os.listdir("./input"):
-        if file.endswith(".xml"):
-            xml_files.append(file)
+    # gets all XML files passed in through the command line
+    for i in range(1, len(sys.argv)):
+        xml_files.append(sys.argv[i])
 
     for xml_file in xml_files:
         # gets the leaf nodes for an XML file
-        tree = ET.parse("./input/" + xml_file)
+        tree = ET.parse(xml_file)
         root = tree.getroot()
         find_leaves(root)
 
         # opens up the image corresponding to the current XML file
         # and gets ready to draw on it
-        image = Image.open("./input/" + xml_file[:-3] + "png")
+        image = Image.open(xml_file[:-3] + "png")
         draw = ImageDraw.Draw(image)
 
         for leaf in leaf_nodes:
