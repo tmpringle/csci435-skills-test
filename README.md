@@ -8,7 +8,7 @@ The codebase uses Python, so make sure you have at least **Python 3.8** installe
    1. The screenshot and its corresponding XML file *must* have the same filename (up until the file extension.)
 5. Run the `main.py` file, including the XML files for the screenshots you want annotated separated by spaces: `python main.py filename1.xml filename2.xml ...`
 
-Once the Python code annotates the screenshots, the annotated screenshots can be found in the output folder.
+Once the Python code annotates the screenshots, the annotated screenshots can be found in the `output` folder.
 
 ## My Solution
 At a high level, my code:
