@@ -7,6 +7,7 @@ The codebase uses Python, so make sure you have at least **Python 3.8** installe
 4. Place the screenshots and their corresponding XML files in the root directory. Do **NOT** place these input files outside of the `csci435-skills-test` directory or in a subdirectory.
    1. The screenshot and its corresponding XML file *must* have the same filename (up until the file extension.)
 5. Run the `main.py` file, including the XML files for the screenshots you want annotated separated by spaces: `python main.py filename1.xml filename2.xml ...`
+   1. Don't include the full path for any of the files. Only include the filenames themselves.
 
 Once the Python code annotates the screenshots, the annotated screenshots can be found in the `output` folder.
 
